@@ -26,5 +26,6 @@ In order to use the Unity Analytics for this project, you must follow the steps:
 1. Setup a Unity Project in https://dashboard.unity3d.com/gaming
 2. Setup Analytics inside this project
 3. Follow the steps to link the correct project ID and Organisation into the project settings of this project
+4. Ensure that the first screen you want analytics to begin from contains a game object with the script UnityAnalytics attached.
 Documentation: https://docs.unity.com/analytics/manual/UnityAnalytics
 Learning tools: https://learn.unity.com/project/unity-analytics
