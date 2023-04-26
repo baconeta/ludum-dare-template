@@ -7,9 +7,6 @@ terraform {
   }
 }
 
-# Configure the provider to use a specific project, by default.
-# In this guide, this project is referred to as the "quota-check project".
-# Including `user_project_override = true` is required if a `billing_project` is specified.
 provider "google-beta" {
   billing_project       = local.unrelated_gcp_project_to_verify_billing
   user_project_override = true
