@@ -1,6 +1,6 @@
 # ludum-dare-template
 
-A template prject used primarily for ludum dare gamejams. 
+A template project used primarily for ludum dare gamejams. 
 
 Contains a few preset up functionality and systems, including:
 
@@ -19,3 +19,12 @@ Contains a few preset up functionality and systems, including:
 - Itch link to play: XXX
 
 ## Development team
+
+
+## Unity Analytics
+In order to use the Unity Analytics for this project, you must follow the steps:
+1. Setup a Unity Project in https://dashboard.unity3d.com/gaming
+2. Setup Analytics inside this project
+3. Follow the steps to link the correct project ID and Organisation into the project settings of this project
+Documentation: https://docs.unity.com/analytics/manual/UnityAnalytics
+Learning tools: https://learn.unity.com/project/unity-analytics
