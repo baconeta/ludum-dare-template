@@ -221,8 +221,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 169819879}
-        m_TargetAssemblyTypeName: CreditsButtonLogic, Assembly-CSharp
-        m_MethodName: PressCreditsButton
+        m_TargetAssemblyTypeName: Analytics.TimingEventAnalytics, Assembly-CSharp
+        m_MethodName: StartTimingEvent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -282,6 +282,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52c5f21c6e7d4cb5bc29663b3a34a194, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  analyticStartedName: creditsViewed
+  analyticEndedName: creditsClosed
+  analyticEndTimeName: timeOnCreditsScreen
+  sendStartEvent: 1
 --- !u!1 &194742539
 GameObject:
   m_ObjectHideFlags: 0
@@ -1401,8 +1405,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 169819879}
-        m_TargetAssemblyTypeName: CreditsButtonLogic, Assembly-CSharp
-        m_MethodName: PressBackButton
+        m_TargetAssemblyTypeName: Analytics.TimingEventAnalytics, Assembly-CSharp
+        m_MethodName: EndTimingEvent
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
