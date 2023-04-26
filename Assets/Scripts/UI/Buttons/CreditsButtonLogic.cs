@@ -27,7 +27,7 @@ public class CreditsButtonLogic : MonoBehaviour
         //Define Custom Parameters
         Dictionary<string, object> parameters = new Dictionary<string, object>()
         {
-            {"timeOnCreditsScreen", totalTimeOnScreen.ToString(CultureInfo.InvariantCulture)}
+            {"timeOnCreditsScreen", totalTimeOnScreen}
         };
 
         AnalyticsService.Instance.CustomData("creditsClosed", parameters);
