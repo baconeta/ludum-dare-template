@@ -27,7 +27,7 @@ As per https://firebase.google.com/docs/projects/terraform/get-started:
 1. Install [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli?in=terraform/gcp-get-started)
 2. Install [Google Cloud CLI](https://cloud.google.com/sdk/docs/install-sdk)
 3. Login with `gcloud auth application-default login`
-4. Edit [Infrastructure/vars.tf](Infrastructure/vars.tf) and set the values you need
+4. Edit [Infrastructure/vars.tf](./Infrastructure/vars.tf) and set the values you need
     - It's important to set `unrelated_gcp_project_to_verify_billing`. When you signed up for Google Cloud it should have created a project, you can use that ID
 5. Run `terraform -chdir=Infrastructure init`
 6. Run `terraform -chdir=Infrastructure apply -auto-approve`
