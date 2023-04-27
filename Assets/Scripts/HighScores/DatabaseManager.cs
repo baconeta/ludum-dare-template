@@ -73,7 +73,7 @@ public class DatabaseManager : MonoBehaviour
         {
                 { "Scores", new int[] { 10, 20, 50, 100, 10000 } },
                 { "HighScore", 10000 },
-                { "Name", Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.DisplayName},
+                { "Name", username },
         };
         docRef.SetAsync(user).ContinueWithOnMainThread(task =>
         {
