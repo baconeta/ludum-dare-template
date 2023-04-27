@@ -16,17 +16,17 @@ namespace Analytics
         [SerializeField] private string analyticEndTimeName;
         [SerializeField] private bool sendStartEvent = true;
 
-        private float _cachedTimeCreditsOpen;
+        private float _cachedTimeStart;
         private bool _started;
 
         public void StartTimingEvent()
         {
             _started = true;
-            _cachedTimeCreditsOpen = Time.time;
+            _cachedTimeStart = Time.time;
 
             if (!sendStartEvent) return;
 
-            // The ‘creditsViewed’ event will get cached locally 
+            // The ‘analyticStartedName’ event will get cached locally 
             //and sent during the next scheduled upload, within 1 minute
             AnalyticsService.Instance.CustomData(analyticStartedName);
 
@@ -43,13 +43,13 @@ namespace Analytics
             }
 
             var currentTime = Time.time;
-            var totalTimeOnScreen = currentTime - _cachedTimeCreditsOpen;
+            var timeSinceStart = currentTime - _cachedTimeStart;
             _started = false;
 
-            //Define Custom Parameters
+            // Define custom parameters
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
-                {analyticEndTimeName, totalTimeOnScreen}
+                {analyticEndTimeName, timeSinceStart}
             };
 
             AnalyticsService.Instance.CustomData(analyticEndedName, parameters);
