@@ -58,3 +58,11 @@ In order to use the Unity Analytics for this project, you must follow the steps:
 4. Ensure that the first screen you want analytics to begin from contains a game object with the script UnityAnalytics.cs attached before calling any other analytics related code
 Documentation: https://docs.unity.com/analytics/manual/UnityAnalytics
 Learning tools: https://learn.unity.com/project/unity-analytics
+
+### Debug mode in editor
+Note that you can enable the scripting debug mode for analytics by doing:
+
+1. In the Unity Editor, go to Edit > Project Settings > Player Settings > Player.
+2. Locate the Script Compilation section and select Scripting Define Symbols.
+3. Add the keyword “UNITY_ANALYTICS_EVENT_LOGS”.
+4. Select Apply.
