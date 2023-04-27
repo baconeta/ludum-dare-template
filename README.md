@@ -1,6 +1,6 @@
 # ludum-dare-template
 
-A template project used primarily for ludum dare gamejams. 
+A template project used primarily for ludum dare gamejams.
 
 Contains a few preset up functionality and systems, including:
 
@@ -49,3 +49,20 @@ As per https://firebase.google.com/docs/unity/setup#add-config-file:
 
 ### Troubleshooting
 If you encounter a 403 saying that the Firebase Management API or another permission has not been enabled, wait a little while and run `terraform apply` again.
+
+## Unity Analytics
+In order to use the Unity Analytics for this project, you must follow the steps:
+1. Setup a Unity Project in https://dashboard.unity3d.com/gaming
+2. Setup Analytics inside this project by selecting 'Start Using Analytics'
+3. Follow the steps given to link the correct project ID and Organisation from the UGS project, into the project settings of Unity
+4. Ensure that the first screen you want analytics to begin from contains a game object with the script UnityAnalytics.cs attached before calling any other analytics related code
+Documentation: https://docs.unity.com/analytics/manual/UnityAnalytics
+Learning tools: https://learn.unity.com/project/unity-analytics
+
+### Debug mode in editor
+Note that you can enable the scripting debug mode for analytics by doing:
+
+1. In the Unity Editor, go to Edit > Project Settings > Player Settings > Player.
+2. Locate the Script Compilation section and select Scripting Define Symbols.
+3. Add the keyword “UNITY_ANALYTICS_EVENT_LOGS”.
+4. Select Apply.
