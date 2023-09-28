@@ -1,32 +1,17 @@
 ﻿using System.Collections;
-using ObjectPooling;
 using UnityEngine;
 using UnityEngine.Audio;
 
 namespace Audio
 {
     [RequireComponent(typeof(AudioSource))]
-    public class AudioSourcePoolable : MonoBehaviour, IPoolableExecution, IRecyclable
+    public class CustomAudioSource : MonoBehaviour
     {
-        private Poolable _poolable;
         private AudioSource _self;
-
-        public void PoolableExecution(Poolable p)
-        {
-            _poolable = p;
-        }
-
-        public void Recycle()
-        {
-            RemoveFromScene();
-        }
 
         private void RemoveFromScene()
         {
-            if (_poolable)
-                _poolable.Recycle();
-            else
-                DefaultDestruction(gameObject);
+            DefaultDestruction(gameObject);
         }
 
         private void DefaultDestruction(Object toDestroy)

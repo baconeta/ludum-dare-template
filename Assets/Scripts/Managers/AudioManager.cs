@@ -1,5 +1,4 @@
 ﻿using Audio;
-using ObjectPooling;
 using UI.Settings;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -9,12 +8,9 @@ namespace Managers
 {
     public sealed class AudioManager : EverlastingSingleton<AudioManager>
     {
-        [SerializeField] [Min(3)] private int simultaneousSoundLimit = 8;
         [SerializeField] private GameObject audioSourceObject;
 
         [Header("Mixers")] [SerializeField] private AudioMixer masterMixer;
-
-        private ObjectPool _audioSources;
 
         public const string MusicKey = "MusicVolume";
         public const string SfxKey = "SfxVolume";
@@ -23,9 +19,16 @@ namespace Managers
         /// <summary>
         /// Note that the object returned from this call will nullify itself if not looping
         /// </summary>
-        public AudioSourcePoolable Play(AudioClip clip, AudioMixerGroup mixerGroup, bool looping = true)
+        public CustomAudioSource Play(AudioClip clip, AudioMixerGroup mixerGroup, bool looping = true)
         {
-            AudioSourcePoolable audioSource = GetAudioSourceFromPool();
+            if (audioSourceObject is null)
+            {
+                Debug.LogError("No custom object for audio");
+                return null;
+            }
+
+            GameObject gO = Instantiate(audioSourceObject);
+            CustomAudioSource audioSource = gO.AddComponent<CustomAudioSource>();
             audioSource.Init(mixerGroup);
             if (looping)
             {
@@ -42,14 +45,7 @@ namespace Managers
         protected override void Awake()
         {
             base.Awake();
-            // Setup object pooling for audio sources
-            _audioSources = ObjectPool.Build(audioSourceObject, simultaneousSoundLimit, simultaneousSoundLimit);
             LoadVolumes();
-        }
-
-        private AudioSourcePoolable GetAudioSourceFromPool()
-        {
-            return _audioSources.GetRecyclable<AudioSourcePoolable>();
         }
 
         private void LoadVolumes() // Volume is saved in VolumeSettings.cs

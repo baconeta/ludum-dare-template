@@ -16,9 +16,9 @@ namespace Audio
 
         [SerializeField] private AudioManager audioManager;
 
-        private AudioSourcePoolable _music;
-        private AudioSourcePoolable _ambient;
-        private AudioSourcePoolable _sfx;
+        private CustomAudioSource _music;
+        private CustomAudioSource _ambient;
+        private CustomAudioSource _sfx;
 
         public void TestMusicLooping()
         {
