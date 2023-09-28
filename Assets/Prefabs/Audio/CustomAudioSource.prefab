@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7813431375617634485}
   - component: {fileID: 1604640272781143412}
   m_Layer: 0
-  m_Name: AudioSourcePoolable
+  m_Name: CustomAudioSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
