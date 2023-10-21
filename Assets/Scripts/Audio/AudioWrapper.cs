@@ -15,7 +15,7 @@ namespace Audio
 
         private bool _dictionaryInitialised;
 
-        private void Awake()
+        protected override void Awake()
         {
             base.Awake();
             if (_dictionaryInitialised) return;
