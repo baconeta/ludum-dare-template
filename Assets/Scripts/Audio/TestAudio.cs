@@ -15,10 +15,12 @@ namespace Audio
         [SerializeField] private AudioMixerGroup ambientMixerGroup;
 
         [SerializeField] private AudioManager audioManager;
+        [SerializeField] private AudioClip[] clipsToBuild;
 
         private CustomAudioSource _music;
         private CustomAudioSource _ambient;
         private CustomAudioSource _sfx;
+        [SerializeField] private AudioBuilderSystem audioBuilder;
 
         public void TestMusicLooping()
         {
@@ -72,6 +74,21 @@ namespace Audio
         {
             if (_ambient && _ambient.isActiveAndEnabled) _ambient.StopAudio();
             _ambient = null;
+        }
+
+
+        public void ButtonAddTracks()
+        {
+            foreach (var clip in clipsToBuild)
+            {
+                clip.LoadAudioData();
+                audioBuilder.AddClipToBuilder(clip);
+            }
+        }
+
+        public void ButtonPlayTracks()
+        {
+            audioBuilder.PlayBuiltClips();
         }
     }
 }

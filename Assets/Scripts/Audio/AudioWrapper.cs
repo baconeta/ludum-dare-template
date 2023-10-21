@@ -10,12 +10,14 @@ namespace Audio
     public class AudioWrapper : EverlastingSingleton<AudioWrapper>
     {
         [SerializeField] private List<SoundData> allSoundData;
-        private Dictionary<string, SoundData> _soundDict;
+        [SerializeField] private CustomAudioSource customAudioSource;
+        private Dictionary<string, SoundData> _soundDict = new();
 
         private bool _dictionaryInitialised;
 
-        private void Start()
+        private void Awake()
         {
+            base.Awake();
             if (_dictionaryInitialised) return;
 
             // Prep the dictionary 
@@ -27,16 +29,33 @@ namespace Audio
             _dictionaryInitialised = true;
         }
 
-        public void PlaySound(string soundName)
+        public CustomAudioSource PlaySound(string soundName)
         {
+            CustomAudioSource audioSource = null;
             if (_soundDict.TryGetValue(soundName, out SoundData sound))
             {
-                AudioManager.Instance.Play(sound.sound, sound.mixer, sound.loop);
+                audioSource = AudioManager.Instance.Play(sound.sound, sound.mixer, sound.loop);
             }
             else
             {
                 Debug.Log($"Sound {soundName} does not exist in the AudioWrapper.");
             }
+
+            return audioSource;
+        }
+        
+        public void PlaySoundVoid(string soundName)
+        {
+            CustomAudioSource audioSource = null;
+            if (_soundDict.TryGetValue(soundName, out SoundData sound))
+            {
+                audioSource = AudioManager.Instance.Play(sound.sound, sound.mixer, sound.loop, customAudioSource);
+            }
+            else
+            {
+                Debug.Log($"Sound {soundName} does not exist in the AudioWrapper.");
+            }
+
         }
 
         public void PlaySound(string soundName, float delay)

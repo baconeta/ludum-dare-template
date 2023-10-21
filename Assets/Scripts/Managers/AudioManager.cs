@@ -15,11 +15,24 @@ namespace Managers
         public const string MusicKey = "MusicVolume";
         public const string SfxKey = "SfxVolume";
         public const string AmbientKey = "AmbientVolume";
+        
+        public CustomAudioSource Play(AudioClip clip, AudioMixerGroup mixerGroup, bool looping = true, CustomAudioSource presetAudioSource = null)
+        {
+            CustomAudioSource audioSource = presetAudioSource ? presetAudioSource : Setup(mixerGroup, looping);
 
-        /// <summary>
-        /// Note that the object returned from this call will nullify itself if not looping
-        /// </summary>
-        public CustomAudioSource Play(AudioClip clip, AudioMixerGroup mixerGroup, bool looping = true)
+            if (looping)
+            {
+                audioSource.PlayLooping(clip);
+            }
+            else
+            {
+                audioSource.PlayOnce(clip);
+            }
+
+            return audioSource;
+        }
+
+        public CustomAudioSource Setup(AudioMixerGroup mixerGroup, bool looping = true)
         {
             if (audioSourceObject is null)
             {
@@ -30,15 +43,6 @@ namespace Managers
             GameObject gO = Instantiate(audioSourceObject);
             CustomAudioSource audioSource = gO.AddComponent<CustomAudioSource>();
             audioSource.Init(mixerGroup);
-            if (looping)
-            {
-                audioSource.PlayLooping(clip);
-            }
-            else
-            {
-                audioSource.PlayOnce(clip);
-            }
-
             return audioSource;
         }
 
