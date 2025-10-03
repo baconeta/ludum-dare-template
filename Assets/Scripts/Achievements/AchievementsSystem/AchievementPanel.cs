@@ -9,7 +9,7 @@ namespace Achievements
 
         public void Select()
         {
-            Achievement achievement = FindObjectOfType<AchievementController>().Achievements
+            Achievement achievement = FindFirstObjectByType<AchievementController>().Achievements
                 .Find(x => x.achievementUserPrefsCodeName == achievementPrefCode);
 
             if (achievement.completed)
@@ -21,7 +21,7 @@ namespace Achievements
                 achievementDescription = achievement.achievementName + "\n???";
             }
 
-            FindObjectOfType<AchievementLabel>().AchievementText(achievementDescription);
+            FindFirstObjectByType<AchievementLabel>().AchievementText(achievementDescription);
         }
     }
 }

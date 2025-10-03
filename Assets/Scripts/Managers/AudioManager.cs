@@ -1,4 +1,5 @@
-﻿using Audio;
+﻿using System.Collections;
+using Audio;
 using UI.Settings;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -15,19 +16,18 @@ namespace Managers
         public const string MusicKey = "MusicVolume";
         public const string SfxKey = "SfxVolume";
         public const string AmbientKey = "AmbientVolume";
-
-        public CustomAudioSource Play(AudioClip clip, AudioMixerGroup mixerGroup, bool looping = true,
-            CustomAudioSource presetAudioSource = null)
+        
+        public CustomAudioSource Play(AudioClip clip, AudioMixerGroup mixerGroup, bool looping = true, float volume = 1, CustomAudioSource presetAudioSource = null)
         {
             CustomAudioSource audioSource = presetAudioSource ? presetAudioSource : Setup(mixerGroup, looping);
 
             if (looping)
             {
-                audioSource.PlayLooping(clip);
+                audioSource.PlayLooping(clip, volume);
             }
             else
             {
-                audioSource.PlayOnce(clip);
+                audioSource.PlayOnce(clip, volume);
             }
 
             return audioSource;
@@ -50,15 +50,16 @@ namespace Managers
         protected override void Awake()
         {
             base.Awake();
-            LoadVolumes();
+            StartCoroutine(LoadVolumes());
         }
 
-        private void LoadVolumes() // Volume is saved in VolumeSettings.cs
+        private IEnumerator LoadVolumes() // Volume is saved in VolumeSettings.cs
         {
             float musicVol = PlayerPrefs.GetFloat(MusicKey, 0.5f);
             float sfxVol = PlayerPrefs.GetFloat(SfxKey, 0.5f);
             float ambientVol = PlayerPrefs.GetFloat(AmbientKey, 0.5f);
 
+            yield return new WaitForSeconds(0.1f);
             masterMixer.SetFloat(VolumeSettings.MixerMusic, Mathf.Log10(musicVol) * 20);
             masterMixer.SetFloat(VolumeSettings.SfxMusic, Mathf.Log10(sfxVol) * 20);
             masterMixer.SetFloat(VolumeSettings.AmbientMusic, Mathf.Log10(ambientVol) * 20);

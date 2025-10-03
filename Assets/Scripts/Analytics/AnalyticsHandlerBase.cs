@@ -22,7 +22,7 @@ namespace Analytics
         protected virtual void OnEnable() {
             if (PlayerPrefs.HasKey(CONSENT_PREFS_KEY))
             {
-                // TODO During early-access, we're forcing analytics usage. Restore normal behavior after leaving early-access.
+                // TODO This is forcing analytics use
                 switch (1) // switch (PlayerPrefs.GetInt(CONSENT_PREFS_KEY)
                 {
                     case -1: // Player has explicitly opted-out.

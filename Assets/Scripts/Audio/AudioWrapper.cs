@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Managers;
@@ -34,7 +33,7 @@ namespace Audio
             CustomAudioSource audioSource = null;
             if (_soundDict.TryGetValue(soundName, out SoundData sound))
             {
-                audioSource = AudioManager.Instance.Play(sound.sound, sound.mixer, sound.loop);
+                audioSource = AudioManager.Instance.Play(sound.sound, sound.mixer, sound.loop, sound.volume);
             }
             else
             {
@@ -43,13 +42,12 @@ namespace Audio
 
             return audioSource;
         }
-
+        
         public void PlaySoundVoid(string soundName)
         {
-            CustomAudioSource audioSource = null;
             if (_soundDict.TryGetValue(soundName, out SoundData sound))
             {
-                audioSource = AudioManager.Instance.Play(sound.sound, sound.mixer, sound.loop, customAudioSource);
+                AudioManager.Instance.Play(sound.sound, sound.mixer, sound.loop, sound.volume, customAudioSource);
             }
             else
             {
@@ -74,6 +72,15 @@ namespace Audio
             yield return new WaitForSeconds(delay);
 
             PlaySound(soundName);
+        }
+
+        public void StopAllAudio()
+        {
+            CustomAudioSource[] allAudio = FindObjectsByType<CustomAudioSource>(FindObjectsSortMode.None);
+            foreach (CustomAudioSource sound in allAudio)
+            {
+                sound.StopAudio();
+            }
         }
     }
 }

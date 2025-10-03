@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -9,10 +10,19 @@ namespace Audio
     {
         private AudioSource _self;
 
+        private void Awake()
+        {
+            DontDestroyOnLoad(this);
+        }
+
         private void ResetData()
         {
             // Stop Audio
-            _self.Stop();
+            if (_self != null)
+            {
+                _self.Stop();
+                Destroy(gameObject);
+            }
         }
 
         public void Init(AudioMixerGroup group)
@@ -22,18 +32,19 @@ namespace Audio
             _self.outputAudioMixerGroup = group;
         }
 
-        public void PlayOnce(AudioClip clip)
+        public void PlayOnce(AudioClip clip, float volume)
         {
             if (!_self) _self = GetComponent<AudioSource>();
-            _self.PlayOneShot(clip);
+            _self.PlayOneShot(clip,volume);
             StartCoroutine(ResetObject(clip.length + 0.5f));
         }
 
-        public void PlayLooping(AudioClip clip)
+        public void PlayLooping(AudioClip clip, float volume)
         {
             if (!_self) _self = GetComponent<AudioSource>();
             _self.clip = clip;
             _self.loop = true;
+            _self.volume = volume;
             _self.Play();
         }
 

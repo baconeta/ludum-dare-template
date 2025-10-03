@@ -13,7 +13,7 @@ namespace Achievements
 
         private void Awake()
         {
-            _ac = FindObjectOfType<AchievementController>();
+            _ac = FindFirstObjectByType<AchievementController>();
         }
 
         public void ShowAchievements()
@@ -38,7 +38,7 @@ namespace Achievements
 
         public void ResetAchievements()
         {
-            FindObjectOfType<AchievementController>().ResetAllAchievements();
+            FindFirstObjectByType<AchievementController>().ResetAllAchievements();
             RemoveAchievementPanels();
             ShowAchievements();
         }

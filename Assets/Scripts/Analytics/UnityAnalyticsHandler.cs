@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Unity.Services.Analytics;
 using Unity.Services.Core;
 using UnityEngine;
-using Utils;
+using UnityEngine.UnityConsent;
 using static Utils.UnityHelper;
 
 namespace Analytics
@@ -23,7 +23,7 @@ namespace Analytics
             await InitializeAnalytics();
             base.OnEnable();
         }
-        
+
         protected override void OnDisable()
         {
             base.OnDisable();
@@ -34,7 +34,12 @@ namespace Analytics
         public override void OptIn()
         {
             base.OptIn();
-            AnalyticsService.Instance.StartDataCollection();
+            var state = new ConsentState
+            {
+                AdsIntent = ConsentStatus.Granted,
+                AnalyticsIntent = ConsentStatus.Granted
+            };
+            EndUserConsent.SetConsentState(state);
         }
 
         public override void OptOut()
@@ -42,7 +47,12 @@ namespace Analytics
             base.OptOut();
             try
             {
-                AnalyticsService.Instance.StopDataCollection();
+                var state = new ConsentState
+                {
+                    AdsIntent = ConsentStatus.Denied,
+                    AnalyticsIntent = ConsentStatus.Denied
+                };
+                EndUserConsent.SetConsentState(state);
             }
             catch (NotSupportedException)
             {
@@ -60,12 +70,14 @@ namespace Analytics
         {
             Debug.Log($"Recording analytics event {eventName} with {analytics.Count} parameters");
 
-            if (DoEnableCloudServicesAnalytics) {
+            if (DoEnableCloudServicesAnalytics)
+            {
                 CustomEvent gameEvent = new(eventName);
                 foreach (KeyValuePair<string, object> kvp in analytics)
                 {
                     gameEvent.Add(kvp.Key, kvp.Value);
                 }
+
                 AnalyticsService.Instance.RecordEvent(gameEvent);
             }
         }
