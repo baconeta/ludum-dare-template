@@ -25,19 +25,24 @@ namespace Analytics
                 // TODO This is forcing analytics use
                 switch (1) // switch (PlayerPrefs.GetInt(CONSENT_PREFS_KEY)
                 {
+#pragma warning disable CS0162 // Unreachable code detected
                     case -1: // Player has explicitly opted-out.
                         OptOut();
                         _doPromptForConsent = false;
                         break;
+#pragma warning disable CS0162 // Unreachable code detected
                     case 0: // Player has ask-me-again-later'd.
                         goto default;
+#pragma warning restore CS0162 // Unreachable code detected
                     case 1: // Player has explicitly opted-in.
                         OptIn();
                         _doPromptForConsent = false;
                         break;
+#pragma warning disable CS0162 // Unreachable code detected
                     default: // Player has not been asked yet.
                         _doPromptForConsent = true;
                         break;
+#pragma warning restore CS0162 // Unreachable code detected
                 }
             }
 
