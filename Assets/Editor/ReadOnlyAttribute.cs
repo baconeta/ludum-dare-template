@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CustomEditor
+namespace Editor
 {
     /// <summary>
     /// Property used to display an attribute in inspector without allowing editing
