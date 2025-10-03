@@ -63,7 +63,7 @@ namespace Achievements
             {
                 AchievementType.Bool => AchievementController.Instance.GetBool(achievementUserPrefsCodeName),
                 AchievementType.Int => AchievementController.Instance.GetInt(achievementUserPrefsCodeName) >=
-                                       (int) _internalRequiredValue,
+                                       (int)_internalRequiredValue,
                 AchievementType.Float => AchievementController.Instance.GetFloat(achievementUserPrefsCodeName) >=
                                          _internalRequiredValue,
                 _ => false

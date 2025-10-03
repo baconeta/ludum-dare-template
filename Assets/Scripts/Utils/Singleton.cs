@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Utils
 {
-    public class Singleton<T> : MonoBehaviour where T : Component
+    public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
         /// <summary>
         /// Singleton pattern
@@ -21,6 +22,9 @@ namespace Utils
                     {
                         GameObject newInstance = new();
                         _instance = newInstance.AddComponent<T>();
+                        _instance.name = typeof(T).ToString();
+                        Debug.LogWarning(
+                            $"Static Instance was not found for {_instance.name} - A new object has been created.");
                     }
                 }
 
@@ -41,7 +45,15 @@ namespace Utils
             }
             else
             {
-                Destroy(this);
+                Destroy(gameObject);
+            }
+        }
+
+        protected void OnDestroy()
+        {
+            if (_instance == this)
+            {
+                _instance = null;
             }
         }
     }

@@ -1,4 +1,6 @@
 namespace UI.StateSwitcher
 {
-    public class ColorStateComponentBase : SpecificStateComponentBase<ColorStateContainer> { }
+    public class ColorStateComponentBase : SpecificStateComponentBase<ColorStateContainer>
+    {
+    }
 }

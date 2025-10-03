@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Unity.Services.Analytics;
 using UnityEngine;
+using Event = Unity.Services.Analytics.Event;
 
 namespace Analytics
 {
@@ -28,7 +29,8 @@ namespace Analytics
 
             // The ‘analyticStartedName’ event will get cached locally 
             //and sent during the next scheduled upload, within 1 minute
-            AnalyticsService.Instance.CustomData(analyticStartedName);
+            AnalyticsService.Instance.RecordEvent(analyticStartedName);
+
 
             // You can call Events.Flush() to send the event immediately
             AnalyticsService.Instance.Flush();
@@ -46,13 +48,9 @@ namespace Analytics
             var timeSinceStart = currentTime - _cachedTimeStart;
             _started = false;
 
-            // Define custom parameters
-            Dictionary<string, object> parameters = new Dictionary<string, object>()
-            {
-                {analyticEndTimeName, timeSinceStart}
-            };
+            CustomEvent analyticEnded = new CustomEvent(analyticEndedName) { { analyticEndTimeName, timeSinceStart } };
 
-            AnalyticsService.Instance.CustomData(analyticEndedName, parameters);
+            AnalyticsService.Instance.RecordEvent(analyticEnded);
             AnalyticsService.Instance.Flush();
         }
     }

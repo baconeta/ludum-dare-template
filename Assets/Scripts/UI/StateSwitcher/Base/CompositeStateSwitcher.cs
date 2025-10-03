@@ -27,7 +27,7 @@ namespace UI.StateSwitcher
 
         private List<string> GetStates()
         {
-            if (stateChangers is not {Length: > 0})
+            if (stateChangers is not { Length: > 0 })
             {
                 return new List<string>();
             }

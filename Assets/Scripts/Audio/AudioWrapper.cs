@@ -43,7 +43,7 @@ namespace Audio
 
             return audioSource;
         }
-        
+
         public void PlaySoundVoid(string soundName)
         {
             CustomAudioSource audioSource = null;
@@ -55,7 +55,6 @@ namespace Audio
             {
                 Debug.Log($"Sound {soundName} does not exist in the AudioWrapper.");
             }
-
         }
 
         public void PlaySound(string soundName, float delay)

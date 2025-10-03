@@ -11,7 +11,7 @@ namespace UI.StateSwitcher
         {
             base.OnInspectorGUI();
 
-            CompositeStateSwitcher script = (CompositeStateSwitcher) target;
+            CompositeStateSwitcher script = (CompositeStateSwitcher)target;
 
             script.UpdateStates(); // you can change it to manual update if it starts to cause editor performance issues
 

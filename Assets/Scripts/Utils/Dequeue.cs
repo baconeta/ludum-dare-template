@@ -298,18 +298,18 @@ namespace Utils
                 throw new ArgumentNullException(nameof(value), "Value cannot be null.");
             if (!IsT(value))
                 throw new ArgumentException("Value is of incorrect type.", nameof(value));
-            AddToBack((T) value);
+            AddToBack((T)value);
             return Count - 1;
         }
 
         bool System.Collections.IList.Contains(object value)
         {
-            return IsT(value) && ((ICollection<T>) this).Contains((T) value);
+            return IsT(value) && ((ICollection<T>)this).Contains((T)value);
         }
 
         int System.Collections.IList.IndexOf(object value)
         {
-            return IsT(value) ? IndexOf((T) value) : -1;
+            return IsT(value) ? IndexOf((T)value) : -1;
         }
 
         void System.Collections.IList.Insert(int index, object value)
@@ -318,7 +318,7 @@ namespace Utils
                 throw new ArgumentNullException(nameof(value), "Value cannot be null.");
             if (!IsT(value))
                 throw new ArgumentException("Value is of incorrect type.", nameof(value));
-            Insert(index, (T) value);
+            Insert(index, (T)value);
         }
 
         bool System.Collections.IList.IsFixedSize => false;
@@ -328,7 +328,7 @@ namespace Utils
         void System.Collections.IList.Remove(object value)
         {
             if (IsT(value))
-                Remove((T) value);
+                Remove((T)value);
         }
 
         object System.Collections.IList.this[int index]
@@ -341,7 +341,7 @@ namespace Utils
                     throw new ArgumentNullException(nameof(value), "Value cannot be null.");
                 if (!IsT(value))
                     throw new ArgumentException("Value is of incorrect type.", nameof(value));
-                this[index] = (T) value;
+                this[index] = (T)value;
             }
         }
 
@@ -532,7 +532,7 @@ namespace Utils
                 return;
             }
 
-            DoInsertRange(index, new[] {item});
+            DoInsertRange(index, new[] { item });
         }
 
         /// <summary>
@@ -835,7 +835,7 @@ namespace Utils
         public T[] ToArray()
         {
             var result = new T[Count];
-            ((ICollection<T>) this).CopyTo(result, 0);
+            ((ICollection<T>)this).CopyTo(result, 0);
             return result;
         }
 
