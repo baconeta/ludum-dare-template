@@ -17,7 +17,7 @@ namespace Utils
             {
                 if (_instance == null)
                 {
-                    _instance = FindFirstObjectByType<T>();
+                    _instance = FindAnyObjectByType<T>();
                     if (_instance == null)
                     {
                         GameObject newInstance = new();
