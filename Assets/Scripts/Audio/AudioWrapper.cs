@@ -19,10 +19,12 @@ namespace Audio
             base.Awake();
             if (_dictionaryInitialised) return;
 
-            // Prep the dictionary 
             foreach (SoundData sound in allSoundData)
             {
-                _soundDict.Add(sound.name, sound);
+                if (!_soundDict.TryAdd(sound.name, sound))
+                {
+                    Debug.LogWarning($"AudioWrapper: Duplicate sound name '{sound.name}' — skipping entry.");
+                }
             }
 
             _dictionaryInitialised = true;
@@ -30,28 +32,30 @@ namespace Audio
 
         public CustomAudioSource PlaySound(string soundName)
         {
-            CustomAudioSource audioSource = null;
             if (_soundDict.TryGetValue(soundName, out SoundData sound))
             {
-                audioSource = AudioManager.Instance.Play(sound.sound, sound.mixer, sound.loop, sound.volume);
-            }
-            else
-            {
-                Debug.Log($"Sound {soundName} does not exist in the AudioWrapper.");
+                return AudioManager.Instance.Play(sound.sound, sound.mixer, sound.loop, sound.volume);
             }
 
-            return audioSource;
+            Debug.LogWarning($"AudioWrapper: Sound '{soundName}' does not exist.");
+            return null;
         }
-        
+
         public void PlaySoundVoid(string soundName)
         {
+            if (customAudioSource == null)
+            {
+                Debug.LogError("AudioWrapper: customAudioSource is not assigned in the inspector.");
+                return;
+            }
+
             if (_soundDict.TryGetValue(soundName, out SoundData sound))
             {
                 AudioManager.Instance.Play(sound.sound, sound.mixer, sound.loop, sound.volume, customAudioSource);
             }
             else
             {
-                Debug.Log($"Sound {soundName} does not exist in the AudioWrapper.");
+                Debug.LogWarning($"AudioWrapper: Sound '{soundName}' does not exist.");
             }
         }
 
@@ -70,13 +74,12 @@ namespace Audio
         private IEnumerator PlayDelayed(string soundName, float delay)
         {
             yield return new WaitForSeconds(delay);
-
             PlaySound(soundName);
         }
 
         public void StopAllAudio()
         {
-            CustomAudioSource[] allAudio = FindObjectsByType<CustomAudioSource>();
+            CustomAudioSource[] allAudio = FindObjectsByType<CustomAudioSource>(FindObjectsSortMode.None);
             foreach (CustomAudioSource sound in allAudio)
             {
                 sound.StopAudio();

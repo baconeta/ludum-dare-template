@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using Audio;
 using UI.Settings;
 using UnityEngine;
@@ -16,10 +16,11 @@ namespace Managers
         public const string MusicKey = "MusicVolume";
         public const string SfxKey = "SfxVolume";
         public const string AmbientKey = "AmbientVolume";
-        
+
         public CustomAudioSource Play(AudioClip clip, AudioMixerGroup mixerGroup, bool looping = true, float volume = 1, CustomAudioSource presetAudioSource = null)
         {
-            CustomAudioSource audioSource = presetAudioSource ? presetAudioSource : Setup(mixerGroup, looping);
+            CustomAudioSource audioSource = presetAudioSource ? presetAudioSource : Setup(mixerGroup);
+            if (audioSource == null) return null;
 
             if (looping)
             {
@@ -33,16 +34,17 @@ namespace Managers
             return audioSource;
         }
 
-        public CustomAudioSource Setup(AudioMixerGroup mixerGroup, bool looping = true)
+        public CustomAudioSource Setup(AudioMixerGroup mixerGroup)
         {
             if (audioSourceObject is null)
             {
-                Debug.LogError("No custom object for audio");
+                Debug.LogError("AudioManager: audioSourceObject prefab is not assigned.");
                 return null;
             }
 
             GameObject gO = Instantiate(audioSourceObject);
-            CustomAudioSource audioSource = gO.AddComponent<CustomAudioSource>();
+            // Use the existing component from the prefab if present; only add if absent.
+            CustomAudioSource audioSource = gO.GetComponent<CustomAudioSource>() ?? gO.AddComponent<CustomAudioSource>();
             audioSource.Init(mixerGroup);
             return audioSource;
         }
@@ -53,16 +55,25 @@ namespace Managers
             StartCoroutine(LoadVolumes());
         }
 
-        private IEnumerator LoadVolumes() // Volume is saved in VolumeSettings.cs
+        private IEnumerator LoadVolumes()
         {
-            float musicVol = PlayerPrefs.GetFloat(MusicKey, 0.5f);
-            float sfxVol = PlayerPrefs.GetFloat(SfxKey, 0.5f);
+            if (masterMixer == null)
+            {
+                Debug.LogError("AudioManager: masterMixer is not assigned — volumes will not be set.");
+                yield break;
+            }
+
+            float musicVol   = PlayerPrefs.GetFloat(MusicKey,   0.5f);
+            float sfxVol     = PlayerPrefs.GetFloat(SfxKey,     0.5f);
             float ambientVol = PlayerPrefs.GetFloat(AmbientKey, 0.5f);
 
-            yield return new WaitForSeconds(0.1f);
-            masterMixer.SetFloat(VolumeSettings.MixerMusic, Mathf.Log10(musicVol) * 20);
-            masterMixer.SetFloat(VolumeSettings.SfxMusic, Mathf.Log10(sfxVol) * 20);
-            masterMixer.SetFloat(VolumeSettings.AmbientMusic, Mathf.Log10(ambientVol) * 20);
+            // Wait one frame — AudioMixer parameters cannot be set reliably on the same frame as scene load.
+            yield return null;
+
+            // Clamp to a small positive value so Log10 never produces -Infinity (which silences the mixer).
+            masterMixer.SetFloat(VolumeSettings.MixerMusic,   Mathf.Log10(Mathf.Max(musicVol,   0.0001f)) * 20);
+            masterMixer.SetFloat(VolumeSettings.SfxMusic,     Mathf.Log10(Mathf.Max(sfxVol,     0.0001f)) * 20);
+            masterMixer.SetFloat(VolumeSettings.AmbientMusic, Mathf.Log10(Mathf.Max(ambientVol, 0.0001f)) * 20);
         }
     }
 }
